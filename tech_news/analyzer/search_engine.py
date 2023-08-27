@@ -14,19 +14,20 @@ def search_by_title(title):
 def search_by_date(date):
     """Seu código deve vir aqui"""
     try:
-        object_data = datetime.strptime(date, "%Y-%m-%d")
+        formatted_date = datetime.strptime(date, "%Y-%m-%d").strftime(
+            "%d/%m/%Y"
+        )
     except ValueError:
         raise ValueError("Data inválida")
 
-    formatted_date = object_data.strftime("%d/%m/%Y")
     dates = list(
-        db.search_news(
+        db.news.find(
             {"timestamp": formatted_date},
             {"title": True, "url": True, "_id": False},
         )
     )
 
-    return [(noticia["title"], noticia["url"]) for noticia in dates]
+    return [(news["title"], news["url"]) for news in dates]
 
 
 # Requisito 9
