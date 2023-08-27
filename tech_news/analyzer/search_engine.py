@@ -33,11 +33,10 @@ def search_by_date(date):
 # Requisito 9
 def search_by_category(category):
     """Seu código deve vir aqui"""
-    lower_case_category = category.lower()
+    result = db.news.find(
+        {"category": {"$regex": category.lower(), "$options": "i"}}
+    )
 
-    return [
-        (news["title"], news["url"])
-        for news in db.news.find(
-            {"category": {"$regex": lower_case_category, "$options": "i"}}
-        )
-    ]
+    found_news = [(news["title"], news["url"]) for news in result]
+
+    return found_news
