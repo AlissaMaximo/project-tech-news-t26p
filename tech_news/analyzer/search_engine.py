@@ -33,4 +33,11 @@ def search_by_date(date):
 # Requisito 9
 def search_by_category(category):
     """Seu código deve vir aqui"""
-    raise NotImplementedError
+    lower_case_category = category.lower()
+
+    return [
+        (news["title"], news["url"])
+        for news in db.news.find(
+            {"category": {"$regex": lower_case_category, "$options": "i"}}
+        )
+    ]
